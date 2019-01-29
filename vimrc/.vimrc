@@ -4,8 +4,7 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" alternatively, pass a path where Vundle should install plugins "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -26,7 +25,21 @@ Plugin 'kien/ctrlp.vim'
 
 Plugin 'tmhedberg/SimpylFold'
 
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+"Plugin 'Raimondi/delimitMate'
+
+Plugin 'alvan/vim-closetag'
+
+Plugin 'tpope/vim-surround'
+
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+
+Plugin 'zivyangll/git-blame.vim'
+" Optional
+Plugin 'honza/vim-snippets'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -68,12 +81,6 @@ set mat=2
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
 
-" Enable syntax highlighting
-syntax enable
-" Color Scheme
-"colorscheme desert
-"set background=dark
-
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf-8
 
@@ -111,9 +118,6 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
-" Turn on line numbers:
-set number
-
 " Toggle line numbers and fold column for easy copying:
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 
@@ -128,7 +132,7 @@ set clipboard=unnamed
 map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 
 " Automatic reloading of .vimrc
- autocmd! bufwritepost .vimrc source %
+autocmd! bufwritepost .vimrc source %
 
 " Mouse and backspace
 set bs=2     " make backspace behave like normal again
@@ -141,9 +145,8 @@ nmap <C-t> :tabnew<CR>
 " Bind nohl
 " Removes highlight of your last search
 " ``<C>`` stands for ``CTRL`` and therefore ``<C-n>`` stands for ``CTRL+n``
-noremap <C-n> :nohl<CR>
-vnoremap <C-n> :nohl<CR>
-inoremap <C-n> :nohl<CR>
+noremap <C-g> :nohl<CR>
+vnoremap <C-g> :nohl<CR>
 
 " map sort function to a Ctrl-Down
 vnoremap <C-Down> :sort<CR>
@@ -173,12 +176,6 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" Setup Pathogen to manage your plugins
-" mkdir -p ~/.vim/autoload ~/.vim/bundle
-" curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/HEAD/autoload/pathogen.vim
-" Now you can install any plugin into a .vim/bundle/plugin-name/ folder
-call pathogen#infect()
-
 " Python-mode settings
 let g:pymode_run_key = 'R'
 
@@ -195,13 +192,6 @@ filetype plugin indent on
 
 " Show information in the bottom right about line and column number
 set ruler
-
-
-" Added by Nar
-" " Allows for autoinsertion of ending brace/parenthesis/bracket
-" inoremap {<cr {<cr>}<c-o><s-o>
-" inoremap [<cr [<cr>]<c-o><s-o>
-" inoremap (<cr (<cr>)<c-o><s-o>
 
 " Sets where the window splits
 set splitbelow
@@ -224,7 +214,7 @@ au BufNewFile,BufRead *.py
     \ set fileformat=unix
 
 " Determines styling for below files
-au BufNewFile,BufRead *.js, *.jsx, *.html, *.css
+au BufNewFile,BufRead *.js,*.jsx,*.html,*.css
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2
@@ -240,16 +230,6 @@ set encoding=utf-8
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-"python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
-
 " Python hightlighting
 let python_highlight_all=1
 syntax on
@@ -257,8 +237,6 @@ syntax on
 " Determine which theme to use
 "set background=dark
 " colorscheme solarized
-" 
-" call togglebg#map("<F5>")
 
 " Enables syntax highlighting and changes colorscheme
 syntax enable
@@ -269,7 +247,6 @@ let NERDTreeIgnore=['\.pyc$', '\~$']
 
 " Powerline settings
 set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
-
 " Always show statusline
 set laststatus=2
 set t_Co=256
@@ -292,3 +269,39 @@ hi Visual ctermbg=021
 
 " opens NERDTree on the right side
 let g:NERDTreeWinPos = "right"
+
+" Stolen with love from Ram
+function! Preserve(command)
+    "Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    execute a:command
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+" clean up trailing witespace
+nmap <leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
+
+" clean up trailing white space on save
+autocmd BufWritePre * :call Preserve("%s/\\s\\+$//e")
+
+" insert current date and time with F5
+inoremap <F5> <C-R>=strftime("%c")<CR>
+
+let g:SuperTabDefaultCompletionType    = '<tab>'
+let g:SuperTabCrMapping                = 0
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
+let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+
+map <C-K> :py3f /usr/local/Cellar/clang-format/2018-08-24/share/clang/clang-format.py<cr>
+imap <C-K> <c-o>:py3f /usr/local/Cellar/clang-format/2018-08-24/share/clang/clang-format.py<cr>
+
+" for git blame plugin
+nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>

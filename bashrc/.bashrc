@@ -1,26 +1,62 @@
-source /usr/local/bin/virtualenvwrapper.sh
 export WORKON_HOME=~/.envs
-export GITLAB_TOKEN=5iLPGyztYxDwKtnx7NWk
+source ./Library/Python/2.7/bin/virtualenvwrapper.sh
+export VIRUALENVWRAPPER_PYTHON=/usr/local/bin/python
+export LDFLAGS=-L/usr/local/opt/openssl/lib
+export CPPFLAGS=-I/usr/local/opt/openssl/include
 
-alias sde='workon sdelements && cd ~/development/sdelements/sigma'
-alias up='fab lint && npm run lint'
-alias add='git add'
-alias commitAll='git commit -am'
-alias dev='git checkout develop'
+# sets vi ability in command line
+set -o vi
+
+# git aliases
 alias back='git checkout -'
-alias status='git status'
-alias commitA='git commit -a'
-alias addA='git add .'
-alias amendNE='git commit --amend --no-edit'
-alias shell_plus='./manage.py shell_plus'
-alias mrs='./manage.py runserver'
-alias nrs='node devServer.js'
-alias phead='git push origin HEAD'
+alias dev='git checkout develop'
+alias ga='git add'
+alias gaA='git add .'
+alias gaNE='git commit --amend --no-edit'
+alias gb='git branch'
+alias gcA='git commit -a'
+alias gcAM='git commit -am'
+alias gd='git diff'
+alias gl='git log'
+alias gp='git pull'
+alias greset='git reset --hard HEAD'
+alias gs='git status'
+alias gss='git stash save'
+alias ok='git rebase --continue'
 alias pfhead='git push -f origin HEAD'
+alias phead='git push origin HEAD'
+alias pushall='git push all'
 alias rebasedev='git rebase develop'
 alias stash='git stash'
+alias stashes='git stash list'
+alias tasks='git co feature/tasks'
 
-sdTest() {
-    # runs the tests of the given directory
-    ./manage.py test $1 --settings=test_local_settings --nomigrations 
+# other aliases
+alias aliases='cat ~/.bashrc | grep alias'
+alias csdetools='pip freeze | grep sdetools'
+alias editBashrc='vim ~/.bashrc'
+alias editVimrc='vim ~/.vimrc'
+alias hoPLS='sudo killall coreaudiod'
+alias readBashrc='less ~/.bashrc'
+alias reloadBashrc='. ~/.bashrc'
+alias cdf='ssh saynorat@teach.cs.utoronto.ca'
+
+commitDiff() {
+    git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $1..$2
 }
+
+mkcdir() {
+    mkdir "$1" && cd "$1"
+}
+
+cdup() {
+    LIMIT=$1
+    P=$PWD
+    for ((i=1; i <= LIMIT; i++))
+    do
+        P=$P/..
+    done
+    cd $P
+}
+export CPPFLAGS=-I/usr/local/opt/openssl/include
+export LDFLAGS=-L/usr/local/opt/openssl/lib
