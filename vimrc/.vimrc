@@ -164,7 +164,6 @@ set nowrap  " don't automatically wrap on load
 " set wrap    "Wrap lines
 set fo-=t   " don't automatically wrap text when typing
 set colorcolumn=80
-highlight ColorColumn ctermbg=blue
 
 " Useful settings
 set history=700
@@ -240,7 +239,7 @@ syntax on
 
 " Enables syntax highlighting and changes colorscheme
 syntax enable
-colorscheme molokai
+colorscheme railscasts
 
 " Hides .pyc files from nerdtree
 let NERDTreeIgnore=['\.pyc$', '\~$']
@@ -263,9 +262,6 @@ map <C-n> :NERDTreeToggle<CR>
 " Solve certain color problems for powerline
 autocmd BufNewFile,BufRead *.rb nested colorscheme desert
 let g:miniBufExplForceSyntaxEnable = 1
-
-" Changes highlight color
-hi Visual ctermbg=021
 
 " opens NERDTree on the right side
 let g:NERDTreeWinPos = "right"
