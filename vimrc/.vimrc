@@ -54,10 +54,6 @@ set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 
-" Configure backspace so it acts as it should act
-"set backspace=eol,start,indent
-"set whichwrap+=<,>,h,l
-
 " Ignore case when searching
 set ignorecase
 
@@ -86,6 +82,7 @@ set encoding=utf-8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+set ff=unix
 
 " Use spaces instead of tabs
 set expandtab
@@ -138,13 +135,12 @@ autocmd! bufwritepost .vimrc source %
 set bs=2     " make backspace behave like normal again
 
 " Map Ctrl-Tab for Tabs, also requires .Xresources and .screenrc
-nmap <C-Tab> :tabn<CR>
-nmap <C-S-Tab> :tabp<CR>
+nmap <Tab> :tabn<CR>
+nmap <S-Tab> :tabp<CR>
 nmap <C-t> :tabnew<CR>
 
 " Bind nohl
 " Removes highlight of your last search
-" ``<C>`` stands for ``CTRL`` and therefore ``<C-n>`` stands for ``CTRL+n``
 noremap <C-g> :nohl<CR>
 vnoremap <C-g> :nohl<CR>
 
@@ -204,12 +200,12 @@ nnoremap <space> za
 
 " Determines PEP8 styling for Python files
 au BufNewFile,BufRead *.py
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=79 |
-    \ set expandtab |
-    \ set autoindent |
+    "\ set tabstop=4 |
+    "\ set softtabstop=4 |
+    "\ set shiftwidth=4 |
+    "\ set textwidth=79 |
+    "\ set expandtab |
+    "\ set autoindent |
     \ set fileformat=unix
 
 " Determines styling for below files
@@ -231,15 +227,10 @@ map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Python hightlighting
 let python_highlight_all=1
-syntax on
-
-" Determine which theme to use
-"set background=dark
-" colorscheme solarized
 
 " Enables syntax highlighting and changes colorscheme
 syntax enable
-colorscheme railscasts
+colorscheme solarized8_dark
 
 " Hides .pyc files from nerdtree
 let NERDTreeIgnore=['\.pyc$', '\~$']
@@ -296,8 +287,5 @@ let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
 let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 
-map <C-K> :py3f /usr/local/Cellar/clang-format/2018-08-24/share/clang/clang-format.py<cr>
-imap <C-K> <c-o>:py3f /usr/local/Cellar/clang-format/2018-08-24/share/clang/clang-format.py<cr>
-
-" for git blame plugin
-nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+"map <C-K> :py3f /usr/local/Cellar/clang-format/2018-08-24/share/clang/clang-format.py<cr>
+"imap <C-K> <c-o>:py3f /usr/local/Cellar/clang-format/2018-08-24/share/clang/clang-format.py<cr>
