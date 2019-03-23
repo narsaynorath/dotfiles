@@ -7,36 +7,22 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'Valloric/YouCompleteMe'
-
-Plugin 'scrooloose/syntastic'
-
-Plugin 'nvie/vim-flake8'
-
-Plugin 'flazz/vim-colorschemes'
-
-Plugin 'scrooloose/nerdtree'
-
-Plugin 'jistr/vim-nerdtree-tabs'
-
-Plugin 'kien/ctrlp.vim'
-
-Plugin 'tmhedberg/SimpylFold'
-
-Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-
 "Plugin 'Raimondi/delimitMate'
-
-Plugin 'alvan/vim-closetag'
-
-Plugin 'tpope/vim-surround'
-
 Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'alvan/vim-closetag'
+Plugin 'flazz/vim-colorschemes'
 Plugin 'garbas/vim-snipmate'
-
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kien/ctrlp.vim'
+Plugin 'nvie/vim-flake8'
+Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'tomtom/tlib_vim'
+Plugin 'tpope/vim-surround'
 Plugin 'zivyangll/git-blame.vim'
 " Optional
 Plugin 'honza/vim-snippets'
@@ -126,7 +112,7 @@ set pastetoggle=<F2>
 set clipboard=unnamed
 
 " Execute file being edited with <Shift> + e:
-map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
+"map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 
 " Automatic reloading of .vimrc
 autocmd! bufwritepost .vimrc source %

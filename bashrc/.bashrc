@@ -1,8 +1,6 @@
-export WORKON_HOME=~/.envs
-source ./Library/Python/2.7/bin/virtualenvwrapper.sh
-export VIRUALENVWRAPPER_PYTHON=/usr/local/bin/python
-export LDFLAGS=-L/usr/local/opt/openssl/lib
-export CPPFLAGS=-I/usr/local/opt/openssl/include
+#export WORKON_HOME=~/.envs
+#source ./Library/Python/2.7/bin/virtualenvwrapper.sh
+#export VIRUALENVWRAPPER_PYTHON=/usr/local/bin/python
 
 # sets vi ability in command line
 set -o vi
@@ -58,5 +56,7 @@ cdup() {
     done
     cd $P
 }
-export CPPFLAGS=-I/usr/local/opt/openssl/include
-export LDFLAGS=-L/usr/local/opt/openssl/lib
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
