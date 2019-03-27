@@ -22,6 +22,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 
 " Syntax checking
 Plugin 'scrooloose/syntastic'
+Plugin 'sheerun/vim-polyglot'
 Plugin 'nvie/vim-flake8'
 
 " For code snippets
@@ -57,6 +58,10 @@ set smartcase
 " Highlight search results
 set hlsearch
 
+" Removes highlight of your last search
+noremap <C-g> :nohl<CR>
+vnoremap <C-g> :nohl<CR>
+
 " Show matching brackets when text indicator is over them
 set showmatch
 
@@ -67,6 +72,9 @@ set mat=2
 " MUST be inserted BEFORE the colorscheme command
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
+
+" Enables syntax highlighting and changes colorscheme
+colorscheme solarized8_dark
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -83,16 +91,8 @@ set tabstop=4
 set softtabstop=4
 set shiftround
 
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
 set ai "Auto indent
 set si "Smart indent
-
-" Set Code Folding
-set foldmethod=indent
-set foldlevel=99
 
 " Map Window Movement
 map <c-j> <c-w>j
@@ -114,19 +114,9 @@ nmap <Tab> :tabn<CR>
 nmap <S-Tab> :tabp<CR>
 nmap <C-t> :tabnew<CR>
 
-" Bind nohl
-" Removes highlight of your last search
-noremap <C-g> :nohl<CR>
-vnoremap <C-g> :nohl<CR>
-
-" map sort function to a Ctrl-Down
-vnoremap <C-Down> :sort<CR>
-
-" easier moving of code blocks
-" Try to go into visual mode (v), thenselect several lines of code here and
-" then press ``>`` several times.
-vnoremap < <gv  " better indentation
-vnoremap > >gv  " better indentation
+" better indentation
+vnoremap < <gv
+vnoremap > >gv
 
 " Showing line numbers and length
 set number  " show line numbers
@@ -157,10 +147,6 @@ let g:pymode_syntax = 1
 " Python hightlighting
 let python_highlight_all=1
 
-" Determine filetype and indent rules
-filetype on
-filetype plugin indent on
-
 " Sets where the window splits
 set splitbelow
 set splitright
@@ -181,17 +167,9 @@ au BufNewFile,BufRead *.js,*.jsx,*.html,*.css
     \ set softtabstop=2 |
     \ set shiftwidth=2
 
-" Flags unnecessary whitespace
-highlight BadWhitespace ctermbg=red guibg=red
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
 " Valloric/YouCompleteMe adjustments
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-" Enables syntax highlighting and changes colorscheme
-"syntax enable
-colorscheme solarized8_dark
 
 " Opens NERDTree when vim starts up
 autocmd vimenter * NERDTree
@@ -208,7 +186,6 @@ let g:NERDTreeWinPos = "right"
 " Powerline settings
 set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
 " Always show statusline
-"set laststatus=2
 set t_Co=256
 
 " Hide the mode below the powerline
@@ -217,6 +194,10 @@ set noshowmode
 " Solve certain color problems for powerline
 autocmd BufNewFile,BufRead *.rb nested colorscheme desert
 let g:miniBufExplForceSyntaxEnable = 1
+
+" Flags unnecessary whitespace
+highlight BadWhitespace ctermbg=red guibg=red
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " Stolen with love from Ram
 function! Preserve(command)
@@ -231,12 +212,13 @@ function! Preserve(command)
     call cursor(l, c)
 endfunction
 
-" clean up trailing witespace
+" Clean up trailing witespace
 nmap <leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
 
-" clean up trailing white space on save
+" Clean up trailing white space on save
 autocmd BufWritePre * :call Preserve("%s/\\s\\+$//e")
 
+" YCM bindings
 let g:SuperTabDefaultCompletionType    = '<tab>'
 let g:SuperTabCrMapping                = 0
 let g:UltiSnipsExpandTrigger           = '<tab>'
@@ -245,7 +227,7 @@ let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
 let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 
-" resize windows
+" Resize windows
 nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
