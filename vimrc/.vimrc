@@ -16,14 +16,15 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 
 " File navigation
+Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
 
 " Syntax checking
+Plugin 'nvie/vim-flake8'
+Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/syntastic'
 Plugin 'sheerun/vim-polyglot'
-Plugin 'nvie/vim-flake8'
 
 " For code snippets
 Plugin 'garbas/vim-snipmate'
@@ -34,8 +35,10 @@ Plugin 'honza/vim-snippets'
 " Utilities
 Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'alvan/vim-closetag'
 Plugin 'tomtom/tlib_vim'
+Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 
 " Aesthetics
@@ -45,6 +48,9 @@ Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+" Add custom snippets directory to runtime path
+set rtp+=~/dotfiles/snippets
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
