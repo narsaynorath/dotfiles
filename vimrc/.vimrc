@@ -49,9 +49,6 @@ Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Add custom snippets directory to runtime path
-set rtp+=~/dotfiles/snippets
-
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 
@@ -234,7 +231,7 @@ let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 
 " Resize windows
-nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
-nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
+nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 3/4)<CR>
 nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
