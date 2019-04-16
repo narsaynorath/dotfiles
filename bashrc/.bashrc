@@ -5,6 +5,14 @@
 # sets vi ability in command line
 set -o vi
 
+# directories
+alias .='cd .'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ~='cd ~'
+alias mk='mkdir -p'
+
 # git aliases
 alias back='git checkout -'
 alias dev='git checkout develop'
@@ -29,15 +37,13 @@ alias stash='git stash'
 alias stashes='git stash list'
 alias tasks='git co feature/tasks'
 
-# other aliases
+# misc
 alias aliases='cat ~/.bashrc | grep alias'
 alias csdetools='pip freeze | grep sdetools'
-alias editBashrc='vim ~/.bashrc'
-alias editVimrc='vim ~/.vimrc'
 alias hoPLS='sudo killall coreaudiod'
 alias readBashrc='less ~/.bashrc'
-alias reloadBashrc='. ~/.bashrc'
 alias cdf='ssh saynorat@teach.cs.utoronto.ca'
+alias c='clear'
 
 commitDiff() {
     git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $1..$2
@@ -56,7 +62,3 @@ cdup() {
     done
     cd $P
 }
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

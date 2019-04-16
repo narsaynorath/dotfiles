@@ -40,6 +40,7 @@ Plugin 'alvan/vim-closetag'
 Plugin 'tomtom/tlib_vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
+Plugin '907th/vim-auto-save'
 
 " Aesthetics
 Plugin 'flazz/vim-colorschemes'
@@ -107,7 +108,7 @@ map <c-h> <c-w>h
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 
 " Better copy & paste
-" When you want to paste large blocks of code into vim, press F2 before you
+" When you want to paste large blocks of code into vim, press F3 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
 set pastetoggle=<F3>
 set clipboard=unnamed
@@ -235,3 +236,6 @@ nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
 nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 3/4)<CR>
 nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
+
+" Vim autosave
+let g:auto_save = 1
