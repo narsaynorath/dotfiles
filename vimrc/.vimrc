@@ -19,6 +19,7 @@ Plugin 'tpope/vim-sensible'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'mileszs/ack.vim'
 
 " Syntax checking
 Plugin 'nvie/vim-flake8'
@@ -33,14 +34,12 @@ Plugin 'MarcWeber/vim-addon-mw-utils' " dependency for vim-snipmate
 Plugin 'honza/vim-snippets'
 
 " Utilities
-Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'alvan/vim-closetag'
 Plugin 'tomtom/tlib_vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
-Plugin '907th/vim-auto-save'
 
 " Aesthetics
 Plugin 'flazz/vim-colorschemes'
@@ -123,7 +122,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Showing line numbers and length
-set number  " show line numbers
+" show line numbers
+set number relativenumber
 set tw=79   " width of document (used by gd)
 set nowrap  " don't automatically wrap on load
 set fo-=t   " don't automatically wrap text when typing
@@ -237,5 +237,4 @@ nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 3/4)<CR>
 nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
 
-" Vim autosave
-let g:auto_save = 1
+nmap <F6> :e<CR>
