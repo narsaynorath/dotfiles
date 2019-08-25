@@ -16,10 +16,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 
 " File navigation
-Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'mileszs/ack.vim'
+Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'tpope/vim-vinegar'
 
 " Syntax checking
 Plugin 'nvie/vim-flake8'
@@ -39,6 +38,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'alvan/vim-closetag'
 Plugin 'tomtom/tlib_vim'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 
 " Aesthetics
@@ -115,7 +115,7 @@ set clipboard=unnamed
 " Map Ctrl-Tab for Tabs, also requires .Xresources and .screenrc
 nmap <Tab> :tabn<CR>
 nmap <S-Tab> :tabp<CR>
-nmap <C-t> :tabnew<CR>
+nmap <C-t> :Texplore<CR>
 
 " better indentation
 vnoremap < <gv
@@ -166,7 +166,7 @@ set splitright
     "\ set fileformat=unix
 
 " Determines styling for below files
-au BufNewFile,BufRead *.js,*.jsx,*.html,*.css
+au BufNewFile,BufRead *.js,*.jsx,*.html,*.css,*.scss
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2
@@ -174,18 +174,6 @@ au BufNewFile,BufRead *.js,*.jsx,*.html,*.css
 " Valloric/YouCompleteMe adjustments
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-" Opens NERDTree when vim starts up
-autocmd vimenter * NERDTree
-
-" Toggle NERDTree
-map <C-n> :NERDTreeToggle<CR>
-
-" Hides .pyc files from nerdtree
-let NERDTreeIgnore=['\.pyc$', '\~$']
-
-" opens NERDTree on the right side
-let g:NERDTreeWinPos = "right"
 
 " Powerline settings
 set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
@@ -238,3 +226,15 @@ nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
 
 nmap <F6> :e<CR>
+
+nnoremap <leader>. :CtrlPTag<cr>
+
+" Don't index into these folders when using CtrlP
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*", "static", "static_common"]
+let g:gutentags_ctags_extra_args = ["--languages=python,javascript"]
+
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+
+let g:ctrlp_match_window = 'min:4,max:72'
