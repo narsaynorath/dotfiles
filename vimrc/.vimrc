@@ -4,50 +4,51 @@ autocmd! bufwritepost .vimrc source %
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins "call vundle#begin('~/some/path/here')
+" Load vim-plug if not already loaded
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 " Sensible options
-Plugin 'tpope/vim-sensible'
+Plug 'tpope/vim-sensible'
 
 " File navigation
-Plugin 'kien/ctrlp.vim'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'tpope/vim-vinegar'
+Plug 'kien/ctrlp.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'tpope/vim-vinegar'
 
 " Syntax checking
-Plugin 'nvie/vim-flake8'
-Plugin 'pangloss/vim-javascript'
-Plugin 'scrooloose/syntastic'
-Plugin 'sheerun/vim-polyglot'
+Plug 'nvie/vim-flake8'
+Plug 'pangloss/vim-javascript'
+Plug 'vim-syntastic/syntastic'
+Plug 'sheerun/vim-polyglot'
 
 " For code snippets
-Plugin 'garbas/vim-snipmate'
-Plugin 'MarcWeber/vim-addon-mw-utils' " dependency for vim-snipmate
+Plug 'garbas/vim-snipmate'
+Plug 'MarcWeber/vim-addon-mw-utils' " dependency for vim-snipmate
 " Optional snippets
-Plugin 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 
 " Utilities
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'alvan/vim-closetag'
-Plugin 'tomtom/tlib_vim'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
+Plug 'airblade/vim-gitgutter'
+Plug 'alvan/vim-closetag'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'tomtom/tlib_vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'ycm-core/YouCompleteMe'
 
 " Aesthetics
-Plugin 'flazz/vim-colorschemes'
-Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plug 'flazz/vim-colorschemes'
+Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plug 'prettier/vim-prettier'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" All of your Plugs must be added before the following line
+call plug#end()
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -77,7 +78,7 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Enables syntax highlighting and changes colorscheme
-colorscheme solarized8_dark
+colorscheme solarized8_dark_high
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -102,9 +103,6 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
-
-" Toggle line numbers and fold column for easy copying:
-nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F3 before you
@@ -155,25 +153,11 @@ let python_highlight_all=1
 set splitbelow
 set splitright
 
-" Determines PEP8 styling for Python files
-"au BufNewFile,BufRead *.py
-    "\ set tabstop=4 |
-    "\ set softtabstop=4 |
-    "\ set shiftwidth=4 |
-    ""\ set textwidth=79 |
-    "\ set expandtab |
-    "\ set autoindent |
-    "\ set fileformat=unix
-
 " Determines styling for below files
-au BufNewFile,BufRead *.js,*.jsx,*.html,*.css,*.scss
+au BufNewFile,BufRead *.js,*.jsx,*.html,*.css,*.scss,*.tsx,*.json
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2
-
-" Valloric/YouCompleteMe adjustments
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Powerline settings
 set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
@@ -227,14 +211,24 @@ nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
 
 nmap <F6> :e<CR>
 
-nnoremap <leader>. :CtrlPTag<cr>
+" nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>. :Find<cr>
 
 " Don't index into these folders when using CtrlP
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*", "static", "static_common"]
 let g:gutentags_ctags_extra_args = ["--languages=python,javascript"]
-
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-vnoremap <Space> zf
-
 let g:ctrlp_match_window = 'min:4,max:72'
+
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color optionscommand! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
