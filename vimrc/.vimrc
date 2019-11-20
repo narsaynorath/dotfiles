@@ -15,8 +15,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 
 " File navigation
-Plug 'kien/ctrlp.vim'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-vinegar'
 
 " Syntax checking
@@ -72,13 +70,8 @@ set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
-" Show whitespace
-" MUST be inserted BEFORE the colorscheme command
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-au InsertLeave * match ExtraWhitespace /\s\+$/
-
 " Enables syntax highlighting and changes colorscheme
-colorscheme solarized8_dark_high
+colorscheme 256-grayvim
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -86,13 +79,6 @@ set ff=unix
 
 " Use spaces instead of tabs
 set expandtab
-
-" 1 tab == 4 spaces
-" regular tab is 8 spaces
-" indent by multitudes of 4
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
 set shiftround
 
 set ai "Auto indent
@@ -209,16 +195,7 @@ nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 3/4)<CR>
 nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
 
-nmap <F6> :e<CR>
-
-" nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>. :Find<cr>
-
-" Don't index into these folders when using CtrlP
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
-let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*", "static", "static_common"]
-let g:gutentags_ctags_extra_args = ["--languages=python,javascript"]
-let g:ctrlp_match_window = 'min:4,max:72'
 
 " --column: Show column number
 " --line-number: Show line number
@@ -232,3 +209,57 @@ let g:ctrlp_match_window = 'min:4,max:72'
 " --color: Search color optionscommand! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+" colorscheme tings
+" if v:version < 700 || exists('loaded_switchcolor') || &cp
+" 	finish
+" endif
+
+" let loaded_switchcolor = 1
+
+" let paths = split(globpath(&runtimepath, 'colors/*.vim'), "\n")
+" let s:swcolors = map(paths, 'fnamemodify(v:val, ":t:r")')
+" let s:swskip = [ '256-jungle', '3dglasses', 'calmar256-light', 'coots-beauty-256', 'grb256' ]
+" let s:swback = 0    " background variants light/dark was not yet switched
+" let s:swindex = 0
+
+" function! SwitchColor(swinc)
+
+" 	" if have switched background: dark/light
+" 	if (s:swback == 1)
+" 		let s:swback = 0
+" 		let s:swindex += a:swinc
+" 		let i = s:swindex % len(s:swcolors)
+
+" 		" in skip list
+" 		if (index(s:swskip, s:swcolors[i]) == -1)
+" 			execute "colorscheme " . s:swcolors[i]
+" 		else
+" 			return SwitchColor(a:swinc)
+" 		endif
+
+" 	else
+" 		let s:swback = 1
+" 		if (&background == "light")
+" 			execute "set background=dark"
+" 		else
+" 			execute "set background=light"
+" 		endif
+
+" 		" roll back if background is not supported
+" 		if (!exists('g:colors_name'))
+" 			return SwitchColor(a:swinc)
+" 		endif
+" 	endif
+
+" 	" show current name on screen. :h :echo-redraw
+" 	redraw
+" 	execute "colorscheme"
+" endfunction
+
+"  map <F8>        :call SwitchColor(1)<CR>
+" imap <F8>   <Esc>:call SwitchColor(1)<CR>
+
+"  map <S-F8>      :call SwitchColor(-1)<CR>
+"
+let g:closetag_filenames = "*.html,*.js,*.jsx"
