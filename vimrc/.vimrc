@@ -17,11 +17,15 @@ Plug 'tpope/vim-sensible'
 " File navigation
 Plug 'tpope/vim-vinegar'
 
-" Syntax checking
+" Syntax checking/highlighting
 Plug 'nvie/vim-flake8'
 Plug 'pangloss/vim-javascript'
-Plug 'vim-syntastic/syntastic'
 Plug 'sheerun/vim-polyglot'
+Plug 'vim-syntastic/syntastic'
+
+" Typescript compatibility
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 " For code snippets
 Plug 'garbas/vim-snipmate'
@@ -71,7 +75,21 @@ set showmatch
 set mat=2
 
 " Enables syntax highlighting and changes colorscheme
-colorscheme 256-grayvim
+" colorscheme Atelier_EstuaryDark
+" colorscheme Atelier_LakesideDark
+" colorscheme Atelier_SulphurpoolDark
+" colorscheme badwolf
+" colorscheme boa
+" colorscheme donttouchme
+" colorscheme chance-of-storm
+" colorscheme codedark
+" colorscheme CandyPaper
+" colorscheme neon
+" colorscheme 0x7A69_dark
+" colorscheme woju
+colorscheme welpe
+" colorscheme wargrey
+" colorscheme trogdor
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -94,7 +112,7 @@ map <c-h> <c-w>h
 " When you want to paste large blocks of code into vim, press F3 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
 set pastetoggle=<F3>
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " Map Ctrl-Tab for Tabs, also requires .Xresources and .screenrc
 nmap <Tab> :tabn<CR>
@@ -147,9 +165,9 @@ let g:miniBufExplForceSyntaxEnable = 1
 
 " Flags unnecessary whitespace
 highlight BadWhitespace ctermbg=red guibg=red
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.js,*.jsx,*.ts,*.tsx match BadWhitespace /\s\+$/
 
-" Stolen with love from Ram
+"" Stolen with love from Ram
 function! Preserve(command)
     "Preparation: save last search, and cursor position.
     let _s=@/
@@ -162,11 +180,11 @@ function! Preserve(command)
     call cursor(l, c)
 endfunction
 
-" Clean up trailing witespace
+"" Clean up trailing witespace
 nmap <leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
 
-" Clean up trailing white space on save
-autocmd BufWritePre * :call Preserve("%s/\\s\\+$//e")
+"" Clean up trailing white space on save
+" autocmd BufWritePre * :call Preserve("%s/\\s\\+$//e")
 
 " YCM bindings
 let g:SuperTabDefaultCompletionType    = '<tab>'
@@ -174,8 +192,8 @@ let g:SuperTabCrMapping                = 0
 let g:UltiSnipsExpandTrigger           = '<tab>'
 let g:UltiSnipsJumpForwardTrigger      = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
-let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " Resize windows
 nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
@@ -199,65 +217,69 @@ nnoremap <leader>. :Find<cr>
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " colorscheme tings
-" if v:version < 700 || exists('loaded_switchcolor') || &cp
-" 	finish
-" endif
+ if v:version < 700 || exists('loaded_switchcolor') || &cp
+ 	finish
+ endif
 
-" let loaded_switchcolor = 1
+ let loaded_switchcolor = 1
 
-" let paths = split(globpath(&runtimepath, 'colors/*.vim'), "\n")
-" let s:swcolors = map(paths, 'fnamemodify(v:val, ":t:r")')
-" let s:swskip = [ '256-jungle', '3dglasses', 'calmar256-light', 'coots-beauty-256', 'grb256' ]
-" let s:swback = 0    " background variants light/dark was not yet switched
-" let s:swindex = 0
+ let paths = split(globpath(&runtimepath, 'colors/*.vim'), "\n")
+ let s:swcolors = map(paths, 'fnamemodify(v:val, ":t:r")')
+ let s:swskip = [ '256-jungle', '3dglasses', 'calmar256-light', 'coots-beauty-256', 'grb256' ]
+ let s:swback = 0    " background variants light/dark was not yet switched
+ let s:swindex = 0
 
-" function! SwitchColor(swinc)
+ function! SwitchColor(swinc)
 
-" 	" if have switched background: dark/light
-" 	if (s:swback == 1)
-" 		let s:swback = 0
-" 		let s:swindex += a:swinc
-" 		let i = s:swindex % len(s:swcolors)
+ 	" if have switched background: dark/light
+ 	if (s:swback == 1)
+ 		let s:swback = 0
+ 		let s:swindex += a:swinc
+ 		let i = s:swindex % len(s:swcolors)
 
-" 		" in skip list
-" 		if (index(s:swskip, s:swcolors[i]) == -1)
-" 			execute "colorscheme " . s:swcolors[i]
-" 		else
-" 			return SwitchColor(a:swinc)
-" 		endif
+ 		" in skip list
+ 		if (index(s:swskip, s:swcolors[i]) == -1)
+ 			execute "colorscheme " . s:swcolors[i]
+ 		else
+ 			return SwitchColor(a:swinc)
+ 		endif
 
-" 	else
-" 		let s:swback = 1
-" 		if (&background == "light")
-" 			execute "set background=dark"
-" 		else
-" 			execute "set background=light"
-" 		endif
+ 	else
+ 		let s:swback = 1
+ 		if (&background == "light")
+ 			execute "set background=dark"
+ 		else
+ 			execute "set background=light"
+ 		endif
 
-" 		" roll back if background is not supported
-" 		if (!exists('g:colors_name'))
-" 			return SwitchColor(a:swinc)
-" 		endif
-" 	endif
+ 		" roll back if background is not supported
+ 		if (!exists('g:colors_name'))
+ 			return SwitchColor(a:swinc)
+ 		endif
+ 	endif
 
-" 	" show current name on screen. :h :echo-redraw
-" 	redraw
-" 	execute "colorscheme"
-" endfunction
+ 	" show current name on screen. :h :echo-redraw
+ 	redraw
+ 	execute "colorscheme"
+ endfunction
 
-"  map <F8>        :call SwitchColor(1)<CR>
-" imap <F8>   <Esc>:call SwitchColor(1)<CR>
+  map <F8>        :call SwitchColor(1)<CR>
+ imap <F8>   <Esc>:call SwitchColor(1)<CR>
 
-"  map <S-F8>      :call SwitchColor(-1)<CR>
-"
+  map <S-F8>      :call SwitchColor(-1)<CR>
+
 let g:closetag_filenames = "*.html,*.js,*.jsx"
 
+let g:snipMate = { 'snippet_version' : 1 } " Use new snipmate parser, v0 is deprecated
 let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
 let g:snipMate.scope_aliases = {}
-let g:snipMate.scope_aliases['javascriptreact'] = 'javascript'
+let g:snipMate.scope_aliases['javascriptreact'] = 'javascript,html'
+let g:snipMate.scope_aliases['javascript'] = 'javascriptreact,html'
 
 " Folding
 set foldmethod=syntax
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 nnoremap <silent> <leader><Space> zR
 vnoremap <Space> zf
+
+let g:prettier#config#config_precedence = 'prefer-file'
