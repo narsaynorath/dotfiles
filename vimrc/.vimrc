@@ -108,7 +108,7 @@ vnoremap > >gv
 " Showing line numbers and length
 " show line numbers
 set number relativenumber
-set tw=79   " width of document (used by gd)
+set tw=80   " width of document (used by gd)
 set nowrap  " don't automatically wrap on load
 set fo-=t   " don't automatically wrap text when typing
 set colorcolumn=80
@@ -122,25 +122,13 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" Python-mode settings
-let g:pymode_run_key = 'R'
-
-" Load show documentation plugin
-let g:pymode_doc = 1
-" Key for show python documentation
-let g:pymode_doc_key = 'K'
-
-let g:pymode_syntax = 1
-
-" Python hightlighting
-let python_highlight_all=1
-
 " Sets where the window splits
 set splitbelow
 set splitright
 
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 " Determines styling for below files
-au BufNewFile,BufRead *.js,*.jsx,*.html,*.css,*.scss,*.tsx,*.json
+au BufNewFile,BufRead *.js,*.jsx,*.html,*.css,*.scss,*.ts,*.tsx,*.json,*.feature,*.features
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2
@@ -263,3 +251,13 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 "  map <S-F8>      :call SwitchColor(-1)<CR>
 "
 let g:closetag_filenames = "*.html,*.js,*.jsx"
+
+let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
+let g:snipMate.scope_aliases = {}
+let g:snipMate.scope_aliases['javascriptreact'] = 'javascript'
+
+" Folding
+set foldmethod=syntax
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+nnoremap <silent> <leader><Space> zR
+vnoremap <Space> zf

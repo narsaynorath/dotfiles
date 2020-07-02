@@ -62,3 +62,5 @@ cdup() {
     done
     cd $P
 }
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
