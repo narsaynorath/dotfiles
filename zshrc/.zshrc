@@ -68,7 +68,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git lol vi-mode)
+plugins=(git lol)
 
 # User configuration
 
@@ -121,37 +121,6 @@ alias celery='celery -A . worker --app=celery_mod -l debug'
 # misc
 alias c='clear'
 
-reflect() {
-    REFLECT_DIR="/Users/nsaynorath/Documents/work-notes/reflections/"
-    DATE=`date "+%y.%m.%d"`
-    if [[ -e "${REFLECT_DIR}${DATE}.md" ]]; then
-        echo "Reflection already exists"
-        open "${REFLECT_DIR}${DATE}.md"
-    else
-        cp "${REFLECT_DIR}template.md" "${REFLECT_DIR}${DATE}.md" && open "${REFLECT_DIR}${DATE}.md"
-        echo "Reflection created"
-    fi
-}
-
-sdtest() {
-    # runs the tests of the given directory
-    # ./manage.py test $1 --settings=test_local_settings --nomigrations -v 2
-    if [ -z $1 ]; then
-        echo "This function takes a file_path, [test class], [test function]"
-    elif [ -z $2 ]; then
-        pytest --no-migrations --ds=test_local_settings --ignore=node_modules $1
-    elif [ -z $3 ]; then
-        pytest --no-migrations --ds=test_local_settings --ignore=node_modules $1::$2
-    elif [ -z $4 ]; then
-        pytest --no-migrations --ds=test_local_settings --ignore=node_modules $1::$2::$3
-    fi
-    # pytest --no-migrations --ds=test_local_settings --ignore=node_modules $1::$2
-}
-
-oldtest() {
-    ./manage.py test $1 --settings=test_local_settings --nomigrations -v 2
-}
-
 commitDiff() {
     git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $1..$2
 }
@@ -184,6 +153,3 @@ source $ZSH/oh-my-zsh.sh
 # alias fixPostgres="rm /usr/local/var/postgres/postmaster.pid"
 
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" --no-use # This loads nvm

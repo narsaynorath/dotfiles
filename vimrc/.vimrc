@@ -42,11 +42,10 @@ Plug 'tomtom/tlib_vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'ycm-core/YouCompleteMe'
 
 " Aesthetics
 Plug 'flazz/vim-colorschemes'
-Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+" Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'} THIS HANGS VIM FOR SOME REASON
 Plug 'prettier/vim-prettier'
 
 " All of your Plugs must be added before the following line
@@ -78,7 +77,7 @@ set mat=2
 " colorscheme Atelier_EstuaryDark
 " colorscheme Atelier_LakesideDark
 " colorscheme Atelier_SulphurpoolDark
-" colorscheme badwolf
+colorscheme badwolf
 " colorscheme boa
 " colorscheme donttouchme
 " colorscheme chance-of-storm
@@ -87,7 +86,7 @@ set mat=2
 " colorscheme neon
 " colorscheme 0x7A69_dark
 " colorscheme woju
-colorscheme welpe
+" colorscheme welpe
 " colorscheme wargrey
 " colorscheme trogdor
 
@@ -112,7 +111,7 @@ map <c-h> <c-w>h
 " When you want to paste large blocks of code into vim, press F3 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
 set pastetoggle=<F3>
-set clipboard=unnamedplus
+set clipboard=unnamed
 
 " Map Ctrl-Tab for Tabs, also requires .Xresources and .screenrc
 nmap <Tab> :tabn<CR>
@@ -157,7 +156,7 @@ set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
 set t_Co=256
 
 " Hide the mode below the powerline
-set noshowmode
+" set noshowmode
 
 " Solve certain color problems for powerline
 autocmd BufNewFile,BufRead *.rb nested colorscheme desert
@@ -185,15 +184,6 @@ nmap <leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
 
 "" Clean up trailing white space on save
 " autocmd BufWritePre * :call Preserve("%s/\\s\\+$//e")
-
-" YCM bindings
-let g:SuperTabDefaultCompletionType    = '<tab>'
-let g:SuperTabCrMapping                = 0
-let g:UltiSnipsExpandTrigger           = '<tab>'
-let g:UltiSnipsJumpForwardTrigger      = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
-let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " Resize windows
 nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
